@@ -34,7 +34,7 @@ public class Main {
                     19
             );
             List<Customer> customers = List.of(alex, jamila);
-            //customerRepository.saveAll(customers);
+            customerRepository.saveAll(customers);
         };
     }
 

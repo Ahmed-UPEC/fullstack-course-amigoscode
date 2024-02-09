@@ -5,29 +5,26 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(name = "customer", uniqueConstraints = {@UniqueConstraint(name = "customer_email_unique", columnNames = "email")})
 public class Customer {
 
     @Id
-    @SequenceGenerator(
-            name = "customer_id_sequence",
-            sequenceName = "customer_id_sequence"
+    @SequenceGenerator(name = "customer_id_seq", sequenceName = "customer_id_seq", allocationSize = 1 // incrementation size
     )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "customer_id_sequence"
-    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "customer_id_seq")
+    @Column(columnDefinition = "bigserial" // add this annotation with this line because of this
+            /*
+            * Caused by: org.hibernate.tool.schema.spi.SchemaManagementException:
+            * Schema-validation: wrong column type encountered in column [id] in
+            * table [customer]; found [bigserial (Types#BIGINT)], but
+            * expecting [integer (Types#INTEGER)
+            * */)
     private Integer id;
-    @Column(
-            nullable = false
-    )
+    @Column(nullable = false)
     private String name;
-    @Column(
-            nullable = false
-    )
+    @Column(nullable = false, unique = true)
     private String email;
-    @Column(
-            nullable = false
-    )
+    @Column(nullable = false)
     private Integer age;
 
     public Customer() {
@@ -93,11 +90,6 @@ public class Customer {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", age=" + age +
-                '}';
+        return "Customer{" + "id=" + id + ", name='" + name + '\'' + ", email='" + email + '\'' + ", age=" + age + '}';
     }
 }
