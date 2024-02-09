@@ -2,12 +2,14 @@ package com.asxms;
 
 import com.asxms.customer.Customer;
 import com.asxms.customer.CustomerRepository;
+import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @SpringBootApplication -> Required to init the Spring Framework
@@ -23,18 +25,19 @@ public class Main {
     @Bean
     CommandLineRunner runner(CustomerRepository customerRepository) {
         return args -> {
-            Customer alex = new Customer(
-                    "Alex",
-                    "alex@gmail.com",
-                    21
+            Faker fake = new Faker();
+
+            String firstname = fake.name().firstName().toLowerCase();
+            String lastname = fake.name().lastName().toLowerCase();
+            Random random = new Random();
+            Integer age = random.nextInt(16, 99);
+            Customer customer = new Customer(
+                    firstname + " " + lastname,
+                    firstname + "." + lastname + "@asms.fr",
+                    age
             );
-            Customer jamila = new Customer(
-                    "Jamila",
-                    "jamila@gmail.com",
-                    19
-            );
-            List<Customer> customers = List.of(alex, jamila);
-            customerRepository.saveAll(customers);
+
+            customerRepository.save(customer);
         };
     }
 
