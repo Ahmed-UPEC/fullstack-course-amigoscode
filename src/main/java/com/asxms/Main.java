@@ -25,6 +25,12 @@ public class Main {
     @Bean
     CommandLineRunner runner(CustomerRepository customerRepository) {
         return args -> {
+            insertRandomUser(1, customerRepository);
+        };
+    }
+
+    public void insertRandomUser(int n, CustomerRepository customerRepository) {
+        for (int i = 0; i < n; i++) {
             Faker fake = new Faker();
 
             String firstname = fake.name().firstName().toLowerCase();
@@ -38,7 +44,7 @@ public class Main {
             );
 
             customerRepository.save(customer);
-        };
+        }
     }
 
 }
