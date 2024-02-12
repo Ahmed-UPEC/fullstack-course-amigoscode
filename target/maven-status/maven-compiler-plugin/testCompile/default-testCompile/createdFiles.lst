@@ -1,0 +1,10 @@
+com\asxms\customer\CustomerJPADataAccessServiceTest.class
+com\asxms\customer\CustomerRowMapperTest.class
+com\asxms\customer\CustomerServiceTest.class
+com\asxms\TestContainersTest.class
+com\asxms\AbstractTestcontainers.class
+com\asxms\customer\CustomerRepositoryTest.class
+com\asxms\journey\CustomerIntegrationTest$2.class
+com\asxms\customer\CustomerJDBCDataAccessServiceTest.class
+com\asxms\journey\CustomerIntegrationTest.class
+com\asxms\journey\CustomerIntegrationTest$1.class
