@@ -22,7 +22,7 @@ public class CustomerService {
     private final CustomerDao customerDao;
 
     // Constructor
-    public CustomerService(@Qualifier("jpa") CustomerDao customerDao) {
+    public CustomerService(@Qualifier("jdbc") CustomerDao customerDao) {
         this.customerDao = customerDao;
     }
 
@@ -31,7 +31,7 @@ public class CustomerService {
     }
 
     public Customer getCustomer(Integer customerId) {
-        return customerDao.selectCustomerById(customerId).orElseThrow(() -> new IllegalArgumentException("customer with id [%s]".formatted(customerId)));
+        return customerDao.selectCustomerById(customerId).orElseThrow(() -> new RessourceNotFoundException("customer with id [%s] not found".formatted(customerId)));
     }
 
     public void insertCustomer(CustomerRegistrationRequest customerRegistrationRequest) {
