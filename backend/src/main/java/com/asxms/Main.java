@@ -15,6 +15,7 @@ import java.util.Random;
  * @SpringBootApplication -> Required to init the Spring Framework
  */
 @SpringBootApplication
+
 public class Main {
 
     public static void main(String[] args) {
