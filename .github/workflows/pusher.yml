@@ -1,0 +1,9 @@
+name: Push Test Actions
+
+on:
+  push:
+
+jobs:
+  build:
+    steps:
+      - run: echo "ahmed"
