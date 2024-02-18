@@ -8,7 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.List;
 import java.util.Random;
 
 /**
@@ -26,7 +25,7 @@ public class Main {
     @Bean
     CommandLineRunner runner(CustomerRepository customerRepository) {
         return args -> {
-            insertRandomUser(1, customerRepository);
+            insertRandomUser(3, customerRepository);
         };
     }
 
