@@ -25,7 +25,7 @@ public class Main {
     @Bean
     CommandLineRunner runner(CustomerRepository customerRepository) {
         return args -> {
-            insertRandomUser(3, customerRepository);
+            insertRandomUser(1, customerRepository);
         };
     }
 
