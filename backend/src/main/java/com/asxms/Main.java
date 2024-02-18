@@ -42,7 +42,6 @@ public class Main {
                     firstname + "." + lastname + "@asms.fr",
                     age
             );
-
             customerRepository.save(customer);
         }
     }
