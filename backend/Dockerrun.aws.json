@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "asxms-api",
-      "image": "hematophobia/asxms-api:latest",
+      "image": "hematophobia/asxms-api:18.02.2024.14.20.18",
       "essential": true,
       "memory": 512,
       "portMappings": [
