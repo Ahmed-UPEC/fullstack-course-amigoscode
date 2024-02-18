@@ -11,16 +11,20 @@
 	<groupId>com.asx</groupId>
 	<artifactId>asxms-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<!--
 	<organization>
 		<name>hematophobia</name>
 		<url>https://ahmed-cv.web.app/</url>
 	</organization>
+	-->
 	<name>spring-boot-example</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 		<docker.username>hematophobia</docker.username>
 		<docker.password>ahmede91fb95144</docker.password>
+		<docker.image.name>asxms-api</docker.image.name>
+		<docker.image.tag />
 	</properties>
 	<dependencies>
 		<dependency>
@@ -215,7 +219,7 @@
 							<username>${docker.username}</username>
 							<password>${docker.password}</password>
 						</auth>
-						<image>docker.io/${organization.name}/${project.artifactId}:${project.version}</image>
+						<image>docker.io/${docker.username}/${docker.image.name}:${docker.image.tag}</image>
 						<tags>
 							<tag>latest</tag>
 						</tags>
