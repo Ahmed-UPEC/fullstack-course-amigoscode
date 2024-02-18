@@ -10,7 +10,7 @@ public class PingPongController {
 
     @GetMapping("/ping")
     public PingPong getPingPong() {
-        // testing the CD workflow v3
+        // testing the CD workflow v4
         return new PingPong("Pong");
     };
 
