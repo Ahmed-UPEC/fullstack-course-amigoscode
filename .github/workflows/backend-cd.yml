@@ -29,6 +29,11 @@ jobs:
       run:
         working-directory: ./backend
     steps:
+      - name: Slack - Start deployment
+        run: >
+          curl && curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"Deploy started :progress_bar:"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
         with:
@@ -40,11 +45,26 @@ jobs:
         with:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_ACCESS_TOKEN}}
+      - name: Slack - Docker Hub login
+        run: >
+          curl && curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"Connected to Docker"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Set build number
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
+      - name: Slack - Maven build
+        run: >
+          curl && curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"Building with Maven :maven:"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Build Package Push with Maven
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
+      - name: Slack - Dockerrun.aws.json changes
+        run: >
+          curl && curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"Update Dockerrun.aws.json"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Update Dockerrun.aws.json api image tag with new Build Number
         run: |
           echo "Dockerrun.aws.json before updating tag"
@@ -52,6 +72,11 @@ jobs:
           sed -i -E 's_(hematophobia/asxms-api:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json
           echo "Dockerrun.aws.json after updating tag"
           cat Dockerrun.aws.json
+      - name: Slack - AWS Beanstalk deploy
+        run: >
+          curl && curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"Deploy in :aws:"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
@@ -63,6 +88,11 @@ jobs:
           version_description: ${{ github.SHA }}
           region: ${{ secrets.EB_REGION }}
           deployment_package: backend/Dockerrun.aws.json
+      - name: Slack - Commit
+        run: >
+          curl && curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"Commit new version of the project :github_check_mark:"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Commit and Push Dockerrun.aws.json
         run: |
           git config user.name github-actions
@@ -70,3 +100,9 @@ jobs:
           git add .
           git commit -m "Update Dockerrun.aws.json docker image with new tag ${{  steps.build-number.outputs.BUILD_NUMBER  }}"
           git push
+      - name: Slack - End
+        if: always()
+        run: >
+          curl && curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"Job status ${{ job.status }}"}' 
+          ${{ secrets.SLACK_WEBHOOK_URL }}
