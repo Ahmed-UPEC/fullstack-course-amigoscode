@@ -51,6 +51,11 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
       - uses: actions/checkout@v3
+      - name: Echo commit message and sha
+        run: echo "https://github.com/Ahmed-UPEC/fullstack-course-amigoscode/commit/${{ github.sha }} - ${{ github.event.head_commit.message }}"
+      - name: Slack - Github commit + sha
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"https://github.com/Ahmed-UPEC/fullstack-course-amigoscode/commit/${{ github.sha }} - ${{ github.event.head_commit.message }}"}' ${{ secrets.SLACK_WEBHOOK_URL }}
       - uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
