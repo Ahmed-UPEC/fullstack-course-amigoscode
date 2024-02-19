@@ -29,13 +29,18 @@ jobs:
       run:
         working-directory: ./backend
     steps:
-      - name: Post to a Slack channel via a proxy
+      - name: Send custom JSON data to Slack workflow
         id: slack
         uses: slackapi/slack-github-action@v1.25.0
         with:
-          slack-message: 'This message was sent through a proxy'
+          # For posting a rich message using Block Kit
+          payload: |
+            {
+              "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+            }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
         with:
