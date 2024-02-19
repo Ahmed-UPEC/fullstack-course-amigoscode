@@ -84,7 +84,7 @@ jobs:
           cat Dockerrun.aws.json
       - name: Slack - AWS Beanstalk deploy
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":":aws: Deploy in"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":":aws: Deploy in AWS : Asxms-env.eba-wpjbpjen.eu-west-3.elasticbeanstalk.com"}' ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
