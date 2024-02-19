@@ -36,13 +36,13 @@ jobs:
           # For posting a rich message using Block Kit
           payload: |
             {
-              "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
+              "text": "Start New Deployment :rocket:",
               "blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "GitHub Action build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+                    "text": "Start New Deployment :rocket:"
                   }
                 }
               ]
@@ -63,13 +63,13 @@ jobs:
           password: ${{secrets.DOCKERHUB_ACCESS_TOKEN}}
       - name: Slack - Docker Hub login
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Connected to Docker"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":":docker: Connected to Docker"}' ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Set build number
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
       - name: Slack - Maven build
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Building with Maven :maven:"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":":maven: Building with Maven"}' ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Build Package Push with Maven
         run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
       - name: Slack - Dockerrun.aws.json changes
@@ -84,7 +84,7 @@ jobs:
           cat Dockerrun.aws.json
       - name: Slack - AWS Beanstalk deploy
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Deploy in :aws:"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":":aws: Deploy in"}' ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
@@ -98,7 +98,7 @@ jobs:
           deployment_package: backend/Dockerrun.aws.json
       - name: Slack - Commit
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Commit new version of the project :github_check_mark:"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":":github-check-mark: Commit new version of the project"}' ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Commit and Push Dockerrun.aws.json
         run: |
           git config user.name github-actions
@@ -109,4 +109,4 @@ jobs:
       - name: Slack - End
         if: always()
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Job status ${{ job.status }}"}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' --data '{"text":"Job status ${{ job.status }} :rocket:"}' ${{ secrets.SLACK_WEBHOOK_URL }}
