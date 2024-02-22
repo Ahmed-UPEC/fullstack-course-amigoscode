@@ -40,15 +40,19 @@ function App() {
         ) : (
           <>
             <Wrap spacing='30px' justify='center'>
-            {customers.map((customer) => (
+            {
+            customers.length > 0 ?
+            customers.map((customer) => (
               <WrapItem key={customer.id}>
                 <SocialProfileWithImage
                   name={customer.name}
                   email={customer.email}
                   age={customer.age}
+                  gender={customer.gender}
                 />
               </WrapItem>
-            ))}
+            )) : <p>No customers found</p>
+            }
             </Wrap>
           </>
         )}
