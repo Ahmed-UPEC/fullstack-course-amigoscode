@@ -44,8 +44,8 @@ class CustomerRepositoryTest extends AbstractTestcontainers { // extends enable 
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.save(customer);
 
         // With
@@ -74,8 +74,8 @@ class CustomerRepositoryTest extends AbstractTestcontainers { // extends enable 
         Customer customer = new Customer(
                 FAKER.name().fullName(),
                 email,
-                20
-        );
+                20,
+                Gender.MALE);
         underTest.save(customer);
 
         int id = underTest.findAll()

@@ -3,14 +3,12 @@ package com.asxms.customer;
 import com.asxms.exception.DuplicateResourceException;
 import com.asxms.exception.RequestValidationException;
 import com.asxms.exception.RessourceNotFoundException;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -43,8 +41,8 @@ class CustomerServiceTest {
         // Given
         int id = 1;
         Customer customer = new Customer(
-                id, "foo", "bar@gmail.com", 22
-        );
+                id, "foo", "bar@gmail.com", 22,
+                Gender.MALE);
         Mockito.when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
         // When
         Customer actual = underTest.getCustomer(id);
@@ -75,7 +73,8 @@ class CustomerServiceTest {
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 "foo",
                 email,
-                22
+                22,
+                Gender.MALE
         );
 
         // When
@@ -105,7 +104,8 @@ class CustomerServiceTest {
         CustomerRegistrationRequest request = new CustomerRegistrationRequest(
                 "foo",
                 email,
-                22
+                22,
+                Gender.MALE
         );
 
         // When
@@ -149,12 +149,12 @@ class CustomerServiceTest {
         // Given
         int id = 1;
         Customer customer = new Customer(
-                id, "foo", "bar@gmail.com", 22
-        );
+                id, "foo", "bar@gmail.com", 22,
+                Gender.MALE);
         Mockito.when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
         String newEmail = "alex@gmail.com";
-        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest("Alex", newEmail, 20);
+        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest("Alex", newEmail, 20, Gender.MALE);
         Mockito.when(customerDao.existsPersonWithId(id)).thenReturn(true);
         Mockito.when(customerDao.existsPersonWithEmail(newEmail)).thenReturn(false);
         // When
@@ -176,7 +176,7 @@ class CustomerServiceTest {
         // Given
         int id = 1;
         String newEmail = "alex@gmail.com";
-        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest("Alex", newEmail, 20);
+        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest("Alex", newEmail, 20, Gender.MALE);
         Mockito.when(customerDao.existsPersonWithId(id)).thenReturn(false);
 
         // When
@@ -194,11 +194,11 @@ class CustomerServiceTest {
         // Given
         int id = 1;
         Customer customer = new Customer(
-                id, "foo", "bar@gmail.com", 22
-        );
+                id, "foo", "bar@gmail.com", 22,
+                Gender.MALE);
         Mockito.when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
-        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest(customer.getName(), customer.getEmail(), customer.getAge());
+        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest(customer.getName(), customer.getEmail(), customer.getAge(), customer.getGender());
         Mockito.when(customerDao.existsPersonWithId(id)).thenReturn(true);
         // When
 
@@ -215,11 +215,11 @@ class CustomerServiceTest {
         // Given
         int id = 1;
         Customer customer = new Customer(
-                id, "foo", "bar@gmail.com", 22
-        );
+                id, "foo", "bar@gmail.com", 22,
+                Gender.MALE);
         Mockito.when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
-        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest("Alex", null, null);
+        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest("Alex", null, null, null);
         Mockito.when(customerDao.existsPersonWithId(id)).thenReturn(true);
 
         // When
@@ -241,12 +241,12 @@ class CustomerServiceTest {
         // Given
         int id = 1;
         Customer customer = new Customer(
-                id, "foo", "bar@gmail.com", 22
-        );
+                id, "foo", "bar@gmail.com", 22,
+                Gender.MALE);
         Mockito.when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
         String newEmail = "alex@gmail.com";
-        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest(null, newEmail, null);
+        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest(null, newEmail, null, null);
         Mockito.when(customerDao.existsPersonWithId(id)).thenReturn(true);
         Mockito.when(customerDao.existsPersonWithEmail(newEmail)).thenReturn(false);
         // When
@@ -268,12 +268,12 @@ class CustomerServiceTest {
         // Given
         int id = 1;
         Customer customer = new Customer(
-                id, "foo", "bar@gmail.com", 22
-        );
+                id, "foo", "bar@gmail.com", 22,
+                Gender.MALE);
         Mockito.when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
         String newEmail = "alex@gmail.com";
-        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest(null, newEmail, null);
+        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest(null, newEmail, null, null);
         Mockito.when(customerDao.existsPersonWithId(id)).thenReturn(true);
         Mockito.when(customerDao.existsPersonWithEmail(newEmail)).thenReturn(true);
 
@@ -291,11 +291,11 @@ class CustomerServiceTest {
         // Given
         int id = 1;
         Customer customer = new Customer(
-                id, "foo", "bar@gmail.com", 22
-        );
+                id, "foo", "bar@gmail.com", 22,
+                Gender.MALE);
         Mockito.when(customerDao.selectCustomerById(id)).thenReturn(Optional.of(customer));
 
-        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest(null, null, 20);
+        CustomerRegistrationRequest updateRequest = new CustomerRegistrationRequest(null, null, 20, null);
         Mockito.when(customerDao.existsPersonWithId(id)).thenReturn(true);
 
         // When

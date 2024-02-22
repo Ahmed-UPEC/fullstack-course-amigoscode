@@ -2,6 +2,7 @@ package com.asxms;
 
 import com.asxms.customer.Customer;
 import com.asxms.customer.CustomerRepository;
+import com.asxms.customer.Gender;
 import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -37,11 +38,12 @@ public class Main {
             String lastname = fake.name().lastName().toLowerCase();
             Random random = new Random();
             Integer age = random.nextInt(16, 99);
+            Gender gender = age % 2 == 0 ? Gender.MALE : Gender.FEMALE;
             Customer customer = new Customer(
                     firstname + " " + lastname,
-                    firstname + "." + lastname + "@asms.fr",
-                    age
-            );
+                    firstname + "." + lastname + "@asxms.fr",
+                    age,
+                    gender);
             customerRepository.save(customer);
         }
     }
